@@ -106,8 +106,8 @@ end
 function MsgBus.sub( receiver, msg, callback, ctx )
     local subs = Notifications[msg];
 
-    if type( receiver ) ~= 'table' then
-        error( 'receiver must be type of table', 2 );
+    if type( receiver ) ~= 'table' and type( receiver ) ~= 'userdata' then
+        error( 'receiver must be type of table or userdata', 2 );
     elseif type( msg ) ~= 'string' or msg == '' then
         error( 'msg must be type of non-empty string', 2 );
     elseif type( callback ) ~= 'function' then
@@ -149,8 +149,8 @@ end
 function MsgBus.unsub( receiver, msg, callback )
     local subs = Notifications[msg];
 
-    if type( receiver ) ~= 'table' then
-        error( 'receiver must be type of table', 2 );
+    if type( receiver ) ~= 'table' and type( receiver ) ~= 'userdata' then
+        error( 'receiver must be type of table or userdata', 2 );
     elseif type( msg ) ~= 'string' or msg == '' then
         error( 'msg must be type of non-empty string', 2 );
     elseif callback ~= nil and type( callback ) ~= 'function' then
