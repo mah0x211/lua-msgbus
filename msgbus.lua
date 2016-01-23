@@ -31,6 +31,7 @@
 local floor = math.floor;
 -- constants
 local INFINITE_POS = math.huge;
+local MSG_PATTERN = '[^%w_]';
 -- containers
 local Notifications = {};
 local NSub = {};
@@ -89,8 +90,8 @@ local MsgBus = {};
 --- get number of subscribers
 -- @return nsub
 function MsgBus.getnsub( msg )
-    if type( msg ) ~= 'string' or msg == '' then
-        error( 'msg must be type of non-empty string', 2 );
+    if type( msg ) ~= 'string' or msg == '' or msg:find( MSG_PATTERN ) then
+        error( 'msg string pattern must be [%w_]', 2 );
     end
 
     return NSub[msg] or 0;
@@ -108,8 +109,8 @@ function MsgBus.sub( receiver, msg, callback, ctx )
 
     if type( receiver ) ~= 'table' and type( receiver ) ~= 'userdata' then
         error( 'receiver must be type of table or userdata', 2 );
-    elseif type( msg ) ~= 'string' or msg == '' then
-        error( 'msg must be type of non-empty string', 2 );
+    elseif type( msg ) ~= 'string' or msg == '' or msg:find( MSG_PATTERN ) then
+        error( 'msg string pattern must be [%w_]', 2 );
     elseif type( callback ) ~= 'function' then
         error( 'callback must be type of function', 2 );
     -- update context if already subscribed
@@ -151,8 +152,8 @@ function MsgBus.unsub( receiver, msg, callback )
 
     if type( receiver ) ~= 'table' and type( receiver ) ~= 'userdata' then
         error( 'receiver must be type of table or userdata', 2 );
-    elseif type( msg ) ~= 'string' or msg == '' then
-        error( 'msg must be type of non-empty string', 2 );
+    elseif type( msg ) ~= 'string' or msg == '' or msg:find( MSG_PATTERN ) then
+        error( 'msg string pattern must be [%w_]', 2 );
     elseif callback ~= nil and type( callback ) ~= 'function' then
         error( 'callback must be type of function', 2 );
     -- unsubscribe if registered
@@ -183,8 +184,8 @@ end
 -- @param ...
 -- @return notified
 function MsgBus.pub( msg, ... )
-    if type( msg ) ~= 'string' or msg == '' then
-        error( 'msg must be type of non-empty string', 2 );
+    if type( msg ) ~= 'string' or msg == '' or msg:find( MSG_PATTERN ) then
+        error( 'msg string pattern must be [%w_]', 2 );
     else
         local subs = Notifications[msg];
         local notified = 0;
