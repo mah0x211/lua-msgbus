@@ -70,5 +70,5 @@ Publish a message.
 
 a `msg:string` format should be the following pattern;
 
-- **String Pattern**: `[%w_]+`
+- **String Pattern**: `[0-9a-zA-Z_]+`
 
