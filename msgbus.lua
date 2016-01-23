@@ -182,13 +182,13 @@ end
 --- publish notification
 -- @param msg
 -- @param ...
--- @return notified
+-- @return npub
 function MsgBus.pub( msg, ... )
     if type( msg ) ~= 'string' or msg == '' or msg:find( MSG_PATTERN ) then
         error( 'msg string pattern must be [%w_]', 2 );
     else
         local subs = Notifications[msg];
-        local notified = 0;
+        local npub = 0;
 
         if subs then
             local changelist = {};
@@ -200,7 +200,7 @@ function MsgBus.pub( msg, ... )
             -- notify
             for receiver, callbacks in pairs( subs ) do
                 for fn, ctx in pairs( callbacks ) do
-                    notified = notified + 1;
+                    npub = npub + 1;
                     fn( receiver, ctx, ... );
                 end
             end
@@ -220,7 +220,7 @@ function MsgBus.pub( msg, ... )
             end
         end
 
-        return notified;
+        return npub;
     end
 end
 
